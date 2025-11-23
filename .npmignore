@@ -1,0 +1,31 @@
+# Source files (only dist/ is published)
+src/
+contracts/
+scripts/
+test/
+
+# Build artifacts
+artifacts/
+cache/
+typechain-types/
+
+# Config files
+hardhat.config.ts
+tsconfig.json
+.env
+.env.example
+
+# Git
+.git/
+.gitignore
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+
+# Logs
+*.log
+
