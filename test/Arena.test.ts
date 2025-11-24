@@ -20,8 +20,8 @@ describe("WOD X PRO Protocol - Arena", function () {
 
     // Mint tokens para teste
     const tokenAmount = ethers.parseEther("10000");
-    await wodToken.mint(athlete.address, tokenAmount);
-    await wodToken.mint(validator.address, tokenAmount);
+    await wodToken.mint(athlete.address, tokenAmount, "Test tokens for athlete");
+    await wodToken.mint(validator.address, tokenAmount, "Test tokens for validator");
 
     // Deploy ValidatorRegistry
     const ValidatorRegistry = await ethers.getContractFactory("ValidatorRegistry");
