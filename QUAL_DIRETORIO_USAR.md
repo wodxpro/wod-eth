@@ -40,6 +40,7 @@ Este é o repositório **correto e atualizado** para fazer o deploy:
 ```
 
 **Conteúdo:**
+
 - ✅ `POLYGON_RPC_URL` (Alchemy - Polygon Mainnet)
 - ✅ `PRIVATE_KEY` (sua wallet de deploy)
 - ✅ `SAFE_ADDRESS` (Safe Multisig)
