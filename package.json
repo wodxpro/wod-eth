@@ -33,6 +33,8 @@
     "transfer-ownership": "hardhat run scripts/transferOwnership.ts --network polygon",
     "verify:polygon": "hardhat run scripts/verify.ts --network polygon",
     "verify": "hardhat verify",
+    "test-thirdweb": "ts-node scripts/testThirdweb.ts",
+    "verify-thirdweb": "hardhat run scripts/verifyThirdweb.ts --network polygon",
     "extract-abis": "node scripts/extract-abis.js",
     "update-addresses": "node scripts/update-addresses.js",
     "build": "npm run extract-abis && npm run update-addresses && npm run compile-package",
@@ -63,11 +65,11 @@
     "typescript": "^5.0.0"
   },
   "dependencies": {
-    "@alchemy/aa-accounts": "^3.6.1",
-    "@alchemy/aa-alchemy": "^3.7.3",
-    "@alchemy/aa-core": "^3.6.1",
-    "@alchemy/aa-ethers": "^3.6.1",
-    "ethers": "^6.8.0"
+    "@alchemy/aa-accounts": "^3.19.0",
+    "@alchemy/aa-alchemy": "^3.19.0",
+    "@alchemy/aa-core": "^3.19.0",
+    "@alchemy/aa-ethers": "^3.19.0",
+    "ethers": "^6.15.0"
   }
 }
 

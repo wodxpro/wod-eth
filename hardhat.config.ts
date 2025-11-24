@@ -30,13 +30,15 @@ const config: HardhatUserConfig = {
     },
   },
   etherscan: {
-    apiKey: process.env.ETHERSCAN_API_KEY || process.env.POLYGONSCAN_API_KEY || "",
+    apiKey: {
+      polygon: process.env.ETHERSCAN_API_KEY || "",
+    },
     customChains: [
       {
         network: "polygon",
         chainId: 137,
         urls: {
-          apiURL: "https://api.etherscan.io/v2/api",
+          apiURL: "https://api.polygonscan.com/api",
           browserURL: "https://polygonscan.com",
         },
       },

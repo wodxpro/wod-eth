@@ -14,8 +14,9 @@ async function main() {
   const deployerAddress = deployer.address;
   const deployerBalance = await ethers.provider.getBalance(deployerAddress);
   
-  // Safe Multisig (OBRIGATÓRIO para produção)
-  const SAFE_MULTISIG = process.env.SAFE_ADDRESS;
+  // Safe Multisig (OPCIONAL - se não tiver, usa deployer como owner)
+  const SAFE_MULTISIG = process.env.SAFE_ADDRESS || deployerAddress;
+  const USE_SAFE = !!process.env.SAFE_ADDRESS;
 
   // ============================================
   // VALIDAÇÕES PRÉ-DEPLOY
@@ -34,20 +35,16 @@ async function main() {
     console.warn("   Certifique-se de que isso é intencional.\n");
   }
 
-  // Verificar Safe
-  if (!SAFE_MULTISIG) {
-    throw new Error(
-      "⚠️ SAFE_ADDRESS não configurado no .env!\n" +
-      "   Configure o endereço do Safe Multisig antes do deploy.\n" +
-      "   Crie em: https://app.safe.global/"
-    );
+  // Verificar Safe (se configurado)
+  if (USE_SAFE) {
+    if (!ethers.isAddress(SAFE_MULTISIG)) {
+      throw new Error(`⚠️ Endereço Safe inválido: ${SAFE_MULTISIG}`);
+    }
+    console.log("🔐 Safe Multisig:", SAFE_MULTISIG);
+  } else {
+    console.log("🔐 Owner (Deployer):", deployerAddress);
+    console.log("⚠️  ATENÇÃO: Ownership será com a wallet de deploy (não Safe)");
   }
-
-  if (!ethers.isAddress(SAFE_MULTISIG)) {
-    throw new Error(`⚠️ Endereço Safe inválido: ${SAFE_MULTISIG}`);
-  }
-
-  console.log("🔐 Safe Multisig:", SAFE_MULTISIG);
 
   // Verificar saldo mínimo
   const minBalance = ethers.parseEther("0.5"); // Aumentado para 0.5
@@ -198,7 +195,7 @@ async function main() {
     console.log("   Execute 'npm run initial-distribution' após verificar contratos");
   }
 
-  console.log("\n  Admin (Safe):", SAFE_MULTISIG);
+  console.log("\n  Admin:", USE_SAFE ? `Safe (${SAFE_MULTISIG})` : `Deployer (${deployerAddress})`);
   if (usesAccessControl) {
     console.log("  MINTER_ROLE:", hasMinterRole ? "✅" : "❌");
     console.log("  PAUSER_ROLE:", hasPauserRole ? "✅" : "❌");
@@ -233,7 +230,7 @@ async function main() {
     );
   }
   
-  console.log("  Owner (Safe):", registryOwner);
+  console.log("  Owner:", USE_SAFE ? `Safe (${registryOwner})` : `Deployer (${registryOwner})`);
   console.log("  Min Stake:", ethers.formatEther(registryMinStake), "WOD");
 
   // ============================================
@@ -263,7 +260,7 @@ async function main() {
     );
   }
   
-  console.log("  Owner (Safe):", arenaOwner);
+  console.log("  Owner:", USE_SAFE ? `Safe (${arenaOwner})` : `Deployer (${arenaOwner})`);
 
   // ============================================
   // SUMMARY
@@ -275,7 +272,7 @@ async function main() {
   console.log("Network:", network.name);
   console.log("Chain ID:", chainId);
   console.log("Deployer:", deployerAddress);
-  console.log("Safe Multisig:", SAFE_MULTISIG);
+  console.log("Owner:", USE_SAFE ? `Safe (${SAFE_MULTISIG})` : `Deployer (${deployerAddress})`);
   console.log("");
   console.log("Contracts:");
   console.log("  WODToken:", wodTokenAddress);
@@ -306,7 +303,8 @@ async function main() {
     WODToken: wodTokenAddress,
     ValidatorRegistry: validatorRegistryAddress,
     deployer: deployerAddress,
-    safeAddress: SAFE_MULTISIG,
+    owner: USE_SAFE ? SAFE_MULTISIG : deployerAddress,
+    safeAddress: USE_SAFE ? SAFE_MULTISIG : null,
     deployedAt: new Date().toISOString(),
     network: network.name,
     chainId: chainId,
@@ -326,14 +324,15 @@ async function main() {
     chainId: chainId,
     deployedAt: new Date().toISOString(),
     deployer: deployerAddress,
-    safeMultisig: SAFE_MULTISIG,
+    owner: USE_SAFE ? SAFE_MULTISIG : deployerAddress,
+    safeMultisig: USE_SAFE ? SAFE_MULTISIG : null,
     contracts: {
       WODToken: {
         address: wodTokenAddress,
         name: tokenName,
         symbol: tokenSymbol,
         totalSupply: totalSupply.toString(),
-        admin: SAFE_MULTISIG,
+        admin: USE_SAFE ? SAFE_MULTISIG : deployerAddress,
         usesAccessControl,
         ...(usesAccessControl ? {
           roles: {
@@ -384,7 +383,7 @@ async function main() {
   console.log(`   Arena: https://polygonscan.com/address/${arenaAddress}`);
   console.log("");
   console.log("3️⃣  Verify ownership (CRITICAL!):");
-  console.log(`   All contracts owned by: ${SAFE_MULTISIG}`);
+  console.log(`   All contracts owned by: ${USE_SAFE ? `Safe (${SAFE_MULTISIG})` : `Deployer (${deployerAddress})`}`);
   if (usesAccessControl) {
     console.log(`   WODToken MINTER_ROLE: ${hasMinterRole ? "✅" : "❌"}`);
     console.log(`   WODToken PAUSER_ROLE: ${hasPauserRole ? "✅" : "❌"}`);

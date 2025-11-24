@@ -62,16 +62,28 @@ event Unpaused(address account);
 
 ## 🚀 Deploy & Verificação
 
-- **Data:** 11 de Novembro de 2025
+- **Data:** 12 de Novembro de 2025
 - **Rede:** Polygon Mainnet (ID: 137)
-- **Token Address:** _a ser atualizado após o deploy_
-- **Safe Multisig:** `0x8648...c9a54`
+- **Token Address:** `0x888476eA56322CFd5D08DFf8F247b1ab6bd6bB3e`
+- **ValidatorRegistry:** `0xC802ceb791831949504E8CE5982F6D9625eA6cC1`
+- **Arena:** `0x9B2A87D4C28FA8aBEB14dE889764F66D54b775EE`
+- **Safe Multisig:** `0xcd38CD02A7d04c283330162359C9c8E597Ed5068`
 
-### Verificação no Polygonscan
+### 📚 Documentação
 
-```bash
-npx hardhat verify --network polygon <TOKEN_ADDRESS> <SAFE_MULTISIG>
-```
+Toda a documentação está organizada na pasta [`docs/`](./docs/):
+
+- **Deploy:** [`docs/deploy/`](./docs/deploy/) - Guias de deploy
+- **Verificação:** [`docs/verificacao/`](./docs/verificacao/) - Verificação de contratos
+- **Outros:** [`docs/outros/`](./docs/outros/) - Documentação adicional
+
+**📖 Comece por:** [`docs/README.md`](./docs/README.md) para ver a estrutura completa.
+
+### Links dos Contratos
+
+- **WODToken:** https://polygonscan.com/address/0x888476eA56322CFd5D08DFf8F247b1ab6bd6bB3e
+- **ValidatorRegistry:** https://polygonscan.com/address/0xC802ceb791831949504E8CE5982F6D9625eA6cC1
+- **Arena:** https://polygonscan.com/address/0x9B2A87D4C28FA8aBEB14dE889764F66D54b775EE
 
 ---
 
